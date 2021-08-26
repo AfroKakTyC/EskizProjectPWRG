@@ -326,7 +326,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 705507993}
   m_LocalRotation: {x: 0.40821788, y: -0.23456968, z: 0.10938163, w: 0.8754261}
-  m_LocalPosition: {x: 0, y: 3, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -491,7 +491,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -10.007}
+  m_LocalPosition: {x: 3, y: 1.5, z: 1.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -595,8 +595,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   door: {fileID: 6487458558142160058, guid: addb7de4aff6c8f478f38c4cbef5dba9, type: 3}
+  double_leaf_window: {fileID: 6548261850155273225, guid: 04a91b4ac697d50459b3212d9a181798, type: 3}
   tricuspid_window: {fileID: 5824584857615318148, guid: 4e854d8659fd3234dbe7879908b9d85a, type: 3}
-  balcony_rigth_door: {fileID: 272824539424849484, guid: 828e8fc3f2aaf104fa395cbf381e16d9, type: 3}
+  balcony_left_door: {fileID: 755056175143612391, guid: dfdb0189cb1067745ad55470bd25bf3b, type: 3}
+  balcony_right_door: {fileID: 272824539424849484, guid: 828e8fc3f2aaf104fa395cbf381e16d9, type: 3}
 --- !u!4 &1177429502
 Transform:
   m_ObjectHideFlags: 0

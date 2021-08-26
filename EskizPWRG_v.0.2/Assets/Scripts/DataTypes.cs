@@ -19,6 +19,15 @@ public static class DataTypes
 	}
 
 	[System.Serializable]
+	public enum WindowType
+	{
+		double_leaf_window,
+		tricuspid_window,
+		balcony_right_door,
+		balcony_left_door
+	}
+
+	[System.Serializable]
 	public class RoomData
 	{
 		public string Name;
@@ -54,7 +63,7 @@ public static class DataTypes
 	{
 		public Vector3 Position;
 		public Quaternion Rotation;
-		public string Type;
+		public WindowType Type;
 
 	}
 

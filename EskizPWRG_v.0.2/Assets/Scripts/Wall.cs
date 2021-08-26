@@ -77,9 +77,10 @@ public class Wall : MonoBehaviour
 		mesh.uv = uv;
 
 		gameObject.GetComponent<MeshFilter>().mesh = mesh;
+		gameObject.GetComponent<MeshCollider>().sharedMesh = mesh;
 		//wallMaterial = Resources.Load<Material>("Default/DefaultMaterial");
 		UpdateMaterial(MaterialBuilder.GetMaterial("default"));
-		Debug.LogError(start.x + " " + start.y + " " + end.x + " " + end.y);
+		//Debug.LogError(start.x + " " + start.y + " " + end.x + " " + end.y);
 		//UpdateMaterial();
 	}
 
@@ -151,52 +152,66 @@ public class Wall : MonoBehaviour
 	public void CreateWindow(string windowType)
 	{
 		Vector3 wallDirection = EndCoord - StartCoord;
-		Vector3 middleWallCoord = new Vector3((StartCoord.x + EndCoord.x) / 2, 1.7f, (StartCoord.y + EndCoord.y) / 2);
+		float windowHeight = 0;
+		if (windowType != "balcony_left_door" && windowType != "balcony_right_door")
+			windowHeight = 1.7f;
+		Vector3 middleWallCoord = new Vector3((StartCoord.x + EndCoord.x) / 2, windowHeight, (StartCoord.y + EndCoord.y) / 2);
 		if (Windows.Count > 1)
 		{
-			Vector3 newWindowCoords = new Vector3((StartCoord.x + EndCoord.x) / 3, 1.7f, (StartCoord.y + EndCoord.y) / 3);
-			Window windowScript = Windows[0].GetComponent<Window>();
-			windowScript.UpdatePosition(newWindowCoords);
+			Vector3 newWindowCoords = new Vector3((StartCoord.x + EndCoord.x) / 3, windowHeight, (StartCoord.y + EndCoord.y) / 3);
+			Window existedWindowScript = Windows[0].GetComponent<Window>();
+			existedWindowScript.UpdatePosition(newWindowCoords);
 			middleWallCoord.x *= 2f;
 			middleWallCoord.y *= 2f;
 		}
 		//Debug.LogError(Vector3.Angle(wallDirection, Vector3.left));
-		float windowRotationAngle = Vector3.Angle(wallDirection, Vector3.left);
+		//float windowRotationAngle = Vector3.Angle(wallDirection, Vector3.up) + 90f;
+		float windowRotationAngle = Vector3.SignedAngle(wallDirection, Vector3.up, Vector3.forward) + 90f;
+		//Debug.LogError(wallDirection + " " + Vector3.left + " " + Vector3.up + "   " + windowRotationAngle);
 		PrefabContainer container = GameObject.Find("PrefabContainer").GetComponent<PrefabContainer>();
-		//GameObject window = new GameObject();
-
+		GameObject window = null;
+		WindowType type = 0;
 		if (windowType == "tricuspid_window")
 		{
-			GameObject window = Instantiate(container.tricuspid_window, middleWallCoord, Quaternion.AngleAxis(windowRotationAngle, Vector3.up), gameObject.transform);
-			window.AddComponent<Window>();
-			Window windowScript = window.GetComponent<Window>();
-			windowScript.Type = "tricuspid_window";
-			windowScript.Position = window.transform.position;
-			windowScript.Rotation = window.transform.rotation;
-			Windows.Add(windowScript);
+			window = Instantiate(container.GetWindow(WindowType.tricuspid_window), middleWallCoord, Quaternion.AngleAxis(windowRotationAngle, Vector3.up), gameObject.transform);
+			type = WindowType.tricuspid_window;
 		}
+		else if (windowType == "double_leaf_window")
+		{
+			window = Instantiate(container.GetWindow(WindowType.double_leaf_window), middleWallCoord, Quaternion.AngleAxis(windowRotationAngle, Vector3.up), gameObject.transform);
+			type = WindowType.double_leaf_window;
+		}
+		else if (windowType == "balcony_right_door")
+		{
+			window = Instantiate(container.GetWindow(WindowType.balcony_right_door), middleWallCoord, Quaternion.AngleAxis(windowRotationAngle, Vector3.up), gameObject.transform);
+			type = WindowType.balcony_right_door;
+		}
+		else if (windowType == "balcony_left_door")
+		{
+			window = Instantiate(container.GetWindow(WindowType.balcony_left_door), middleWallCoord, Quaternion.AngleAxis(windowRotationAngle, Vector3.up), gameObject.transform);
+			type = WindowType.balcony_left_door;
+		}
+		window.AddComponent<Window>();
+		Window windowScript = window.GetComponent<Window>();
+		windowScript.Type = type;
+		windowScript.Position = window.transform.position;
+		windowScript.Rotation = window.transform.rotation;
+		Windows.Add(windowScript);
 	}
 
-	public void CreateWindow(string windowType, Vector3 position, Quaternion rotation)
+	public void CreateWindow(WindowType type, Vector3 position, Quaternion rotation)
 	{
 		Vector3 wallDirection = EndCoord - StartCoord;
 		Vector3 middleWallCoord = new Vector3((StartCoord.x + EndCoord.x) / 2, 1.7f, (StartCoord.y + EndCoord.y) / 2);
 
-		//Debug.LogError(Vector3.Angle(wallDirection, Vector3.left));
-		float windowRotationAngle = Vector3.Angle(wallDirection, Vector3.left);
 		PrefabContainer container = GameObject.Find("PrefabContainer").GetComponent<PrefabContainer>();
-		//GameObject window = new GameObject();
-
-		if (windowType == "tricuspid_window")
-		{
-			GameObject window = Instantiate(container.tricuspid_window, position, rotation, gameObject.transform);
-			window.AddComponent<Window>();
-			Window windowScript = window.GetComponent<Window>();
-			windowScript.Type = "tricuspid_window";
-			windowScript.Position = window.transform.position;
-			windowScript.Rotation = window.transform.rotation;
-			Windows.Add(windowScript);
-		}
+		GameObject window = Instantiate(container.GetWindow(type), position, rotation, gameObject.transform);
+		window.AddComponent<Window>();
+		Window windowScript = window.GetComponent<Window>();
+		windowScript.Type = type;
+		windowScript.Position = window.transform.position;
+		windowScript.Rotation = window.transform.rotation;
+		Windows.Add(windowScript);
 	}
 
 

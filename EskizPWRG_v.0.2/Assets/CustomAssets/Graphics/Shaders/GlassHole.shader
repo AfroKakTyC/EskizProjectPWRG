@@ -17,7 +17,7 @@
  }
 
      SubShader{
-         Tags {"Queue" = "Geometry-1" "IgnoreProjector" = "True" "RenderType" = "Transparent"}
+         Tags {"Queue" = "Geometry-2" "IgnoreProjector" = "True" "RenderType" = "Transparent"}
          //ZWrite On
          ZWrite Off
          //ZTest Less
@@ -29,7 +29,7 @@
          Pass {
              Stencil
             {
-                Ref 1
+                Ref 2
                 Comp always
                 Pass replace
             }

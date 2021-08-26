@@ -26,9 +26,10 @@ Shader "Custom/CustomPBSBaseBoard"
 
 				Stencil
 				{
-					Ref 2
-					Comp notequal
-				//Pass keep
+					Ref 1
+					Comp Greater
+					Pass keep
+					Fail keep
 			}
 
 		CGPROGRAM

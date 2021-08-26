@@ -27,8 +27,9 @@
 			Stencil
 			{
 				Ref 1
-				Comp notequal
-				//Pass replace
+				Comp Gequal
+				Pass keep
+				Fail keep
 			}
 
         CGPROGRAM

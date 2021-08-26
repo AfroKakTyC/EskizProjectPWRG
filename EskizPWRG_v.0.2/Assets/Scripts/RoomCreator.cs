@@ -126,14 +126,14 @@ public class RoomCreator : MonoBehaviour
 
 	public static void CreateRoomFromLegacy(LegacyRoomData legacyRoomData)
 	{
-		//PrintDataToFile(JsonConvert.SerializeObject(legacyRoomData));
+		PrintDataToFile(JsonConvert.SerializeObject(legacyRoomData));
 		float length = legacyRoomData.length;
 		float width = legacyRoomData.width;
 		float height = legacyRoomData.height;
 		string baseBoardMaterialId = "";
 		
 		Vector2[] roomCorners = { new Vector2(0f, 0f), new Vector2(0f, width), new Vector2(length, width), new Vector2(length, 0f) };
-		Debug.LogError(length);
+		//Debug.LogError(length);
 		GameObject room = new GameObject(legacyRoomData.name, typeof(Room));
 		Room = room;
 		Room roomScript = room.GetComponent<Room>();
@@ -209,18 +209,19 @@ public class RoomCreator : MonoBehaviour
 		}
 		roomScript.ceilingMaterialId = ceilingScript.materialId;
 
+		Debug.LogError("Room created");
 		//string text = JsonConvert.SerializeObject(roomData, settings);
 		//RoomData test = JsonConvert.DeserializeObject<RoomData>(text);
 		//PrintDataToFile(ConvertRoomToJSON(Room.GetComponent<Room>()));
-		string test = ConvertRoomToJSON(Room.GetComponent<Room>());
-		PrintDataToFile(test);
-		Debug.LogError("1 room created");
-		RoomCostCalculator.CalculateRoomCost(Room.GetComponent<Room>());
-		DestroyRoom();
-		RoomData test2 = JsonConvert.DeserializeObject<RoomData>(test);
-		CreateRoom(test2);
-		Debug.LogError("2 room created");
-		RoomCostCalculator.CalculateRoomCost(Room.GetComponent<Room>());
+		//string test = ConvertRoomToJSON(Room.GetComponent<Room>());
+		////PrintDataToFile(test);
+		//Debug.LogError("1 room created");
+		//RoomCostCalculator.CalculateRoomCost(Room.GetComponent<Room>());
+		//DestroyRoom();
+		//RoomData test2 = JsonConvert.DeserializeObject<RoomData>(test);
+		//CreateRoom(test2);
+		//Debug.LogError("2 room created");
+		//RoomCostCalculator.CalculateRoomCost(Room.GetComponent<Room>());
 
 		//PrintDataToFile(text);
 	}
@@ -229,6 +230,7 @@ public class RoomCreator : MonoBehaviour
 	{
 		Destroy(Room);
 		Room = null;
+		Debug.LogError("Room destroyed");
 	}
 
 	static Vector2 FindDownLeftCoord(Vector2[] roomCorners)

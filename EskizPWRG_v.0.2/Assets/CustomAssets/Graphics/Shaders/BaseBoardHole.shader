@@ -30,7 +30,7 @@ Shader "Custom/BaseBoardHole"
             Pass {
                 Stencil
                {
-                   Ref 2
+                   Ref 1
                    Comp always
                    Pass replace
                }

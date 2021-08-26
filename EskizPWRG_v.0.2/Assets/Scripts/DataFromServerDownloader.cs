@@ -460,6 +460,7 @@ public class DataFromServerDownloader : MonoBehaviour
 		GetLegacyRoomsData().ParallelCoroutinesGroup(this, "GettingLegacyRoomData");
 		while (CoroutineExtension.GroupProcessing("GettingLegacyRoomData"))
 			yield return null;
+		//RoomCreator.CreateRoomFromLegacy(downloadedLegacyRooms[0]);
 		RoomCreator.CreateRoomFromLegacy(downloadedLegacyRooms[0]);
 
 		//StartCoroutine(MakeRoomsWithDelay());
