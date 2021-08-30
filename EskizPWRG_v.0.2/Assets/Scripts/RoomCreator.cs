@@ -54,9 +54,10 @@ public class RoomCreator : MonoBehaviour
 		roomScript.ceilingMaterialId = "default";
 
 		string text = ConvertRoomToJSON(roomScript);
-		DataCacher.CacheJsonRoomData(text, roomScript.Name);
-		DataCacher.CacheJsonRoomData(text, roomScript.Name);
+		//DataCacher.CacheJsonRoomData(text, roomScript.Name);
+		//DataCacher.CacheJsonRoomData(text, roomScript.Name);
 		RoomData test = JsonConvert.DeserializeObject<RoomData>(text);
+		DestroyRoom();
 		CreateRoom(test);
 
 		//PrintDataToFile(roomScript);
@@ -320,6 +321,8 @@ public class RoomCreator : MonoBehaviour
 	void Start()
 	{
 		//CreateRoom(RoomType.Rectangle, "testRoom", roomCorners, 5);
+		Vector2[] diagonalRoomCorners = { new Vector2(0, 0), new Vector2(0, 5), new Vector2(3, 5), new Vector2(6, 0) };
+		CreateRoom(RoomType.Trapezoidal, "testRoom", diagonalRoomCorners, 5);
 		
 	}
 }

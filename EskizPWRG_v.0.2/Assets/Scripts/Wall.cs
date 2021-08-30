@@ -153,8 +153,14 @@ public class Wall : MonoBehaviour
 	{
 		Vector3 wallDirection = EndCoord - StartCoord;
 		float windowHeight = 0;
-		if (windowType != "balcony_left_door" && windowType != "balcony_right_door")
+		if (windowType == "balcony_left_door" || windowType == "balcony_right_door")
+		{
+			windowHeight = 1.095f;
+		}
+		else
+		{
 			windowHeight = 1.7f;
+		}
 		Vector3 middleWallCoord = new Vector3((StartCoord.x + EndCoord.x) / 2, windowHeight, (StartCoord.y + EndCoord.y) / 2);
 		if (Windows.Count > 1)
 		{
@@ -167,6 +173,7 @@ public class Wall : MonoBehaviour
 		//Debug.LogError(Vector3.Angle(wallDirection, Vector3.left));
 		//float windowRotationAngle = Vector3.Angle(wallDirection, Vector3.up) + 90f;
 		float windowRotationAngle = Vector3.SignedAngle(wallDirection, Vector3.up, Vector3.forward) + 90f;
+		Debug.LogError(gameObject.name + "  angle = " + windowRotationAngle);
 		//Debug.LogError(wallDirection + " " + Vector3.left + " " + Vector3.up + "   " + windowRotationAngle);
 		PrefabContainer container = GameObject.Find("PrefabContainer").GetComponent<PrefabContainer>();
 		GameObject window = null;

@@ -461,7 +461,6 @@ public class DataFromServerDownloader : MonoBehaviour
 		while (CoroutineExtension.GroupProcessing("GettingLegacyRoomData"))
 			yield return null;
 		//RoomCreator.CreateRoomFromLegacy(downloadedLegacyRooms[0]);
-		RoomCreator.CreateRoomFromLegacy(downloadedLegacyRooms[0]);
 
 		//StartCoroutine(MakeRoomsWithDelay());
 

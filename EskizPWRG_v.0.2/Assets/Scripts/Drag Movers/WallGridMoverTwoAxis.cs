@@ -64,8 +64,8 @@ public class WallGridMoverTwoAxis : MonoBehaviour
 
         transform.position = new Vector3(celledCoordinates.x, celledCoordinates.y, 4);
         WallGrid wallGrid = transform.GetComponentInParent<WallGrid>();
-        wallGrid.GetObjectDownLeftCellIndex(celledCoordinates, objectSizeInCells);
-        //Debug.LogError(celledCoordinates);
+        //wallGrid.GetObjectDownLeftCellIndex(celledCoordinates, objectSizeInCells);
+        Debug.LogError(celledCoordinates);
 
 	}
 

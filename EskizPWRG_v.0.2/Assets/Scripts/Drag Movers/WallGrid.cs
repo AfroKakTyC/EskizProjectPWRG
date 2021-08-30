@@ -88,6 +88,8 @@ public class WallGrid : MonoBehaviour
         float z = 0;
         GameObject BoxGrid = new GameObject("Grid");
         Wall wall = gameObject.GetComponent<Wall>();
+        Vector3 wallDirection = wall.EndCoord - wall.StartCoord;
+        float wallRotationAngle = Vector3.SignedAngle(wallDirection, Vector3.up, Vector3.forward) + 90f;
         BoxGrid.transform.SetParent(wall.transform);
         for (int i = 0; i < gridSizeX; i++)
 		{
@@ -123,8 +125,9 @@ public class WallGrid : MonoBehaviour
 			}
 		}
 
-        Window window = wall.transform.GetComponentInChildren<Window>();
-        Vector3 rotation = window.transform.rotation.eulerAngles;
+        //Window window = wall.transform.GetComponentInChildren<Window>();
+        //Vector3 rotation = window.transform.rotation.eulerAngles;
+        Vector3 rotation = new Vector3(0f, wallRotationAngle, 0f);
 
         if ((Mathf.Abs(rotation.y) / 90) % 2 == 0)
 		{
