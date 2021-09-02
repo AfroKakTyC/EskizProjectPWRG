@@ -7,18 +7,24 @@ using UnityEngine;
 public class WallGridMoverTwoAxis : MonoBehaviour
 {
     Vector2Int objectSizeInCells = Vector2Int.zero;
+    Vector3 objectSizeInUnits = Vector3.zero;
+    Transform parentWall = null;
 
     void CalculateObjectSizeInCells()
     { 
         Collider collider = GetComponent<Collider>();
         Vector3 minPoint = transform.TransformPoint(collider.bounds.min);
         Vector3 maxPoint = transform.TransformPoint(collider.bounds.max);
-        Vector3 objectSizeInUnits = maxPoint - minPoint;
+        
+        objectSizeInUnits = maxPoint - minPoint;
         WallGrid wallGrid = GetComponentInParent<WallGrid>();
         float objectSizeInCellsX = Mathf.Abs(objectSizeInUnits.x / wallGrid.GetCellSize().x);
         float objectSizeInCellsY = Mathf.Abs(objectSizeInUnits.y / wallGrid.GetCellSize().y);
         objectSizeInCells = new Vector2Int((int)Math.Ceiling(objectSizeInCellsX), (int)Math.Ceiling(objectSizeInCellsY));
-
+        if (objectSizeInCells.x % 2 == 0)
+            objectSizeInCells.x++;
+        if (objectSizeInCells.y % 2 == 0)
+            objectSizeInCells.y++;
         //Debug.LogError(objectSizeInCells);
     }
 
@@ -44,6 +50,18 @@ public class WallGridMoverTwoAxis : MonoBehaviour
         return (localMousePosition);
     }
 
+    private Vector3 GetGlobalMousePosition()
+	{
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+        LayerMask layerMask = LayerMask.GetMask("Wall");
+        if (Physics.Raycast(ray, out hit, layerMask))
+        {
+            return (hit.point);
+        }
+        return (new Vector3(0f, 0f, 0f));
+    }
+
     Vector2 RoundPositionToCellSize(Vector2 position)
 	{
         WallGrid grid = GetComponentInParent<WallGrid>();
@@ -60,11 +78,20 @@ public class WallGridMoverTwoAxis : MonoBehaviour
     void MoveObjectOnCells()
 	{
         Vector2 localMousePosition = GetLocalMousePosition();
+        Vector3 globalMousePosition = GetGlobalMousePosition();
+        Debug.LogError("Global mouse position = " + globalMousePosition);
         Vector2 celledCoordinates = RoundPositionToCellSize(localMousePosition);
-
-        transform.position = new Vector3(celledCoordinates.x, celledCoordinates.y, 4);
         WallGrid wallGrid = transform.GetComponentInParent<WallGrid>();
-        //wallGrid.GetObjectDownLeftCellIndex(celledCoordinates, objectSizeInCells);
+        if (wallGrid.CheckPositionAccesibility(celledCoordinates, objectSizeInCells))
+        {
+            SetParentGridToObject();
+            transform.localPosition = new Vector3(celledCoordinates.x, celledCoordinates.y, 0);
+            SetParentWallToObject();
+        }
+        
+
+        Vector2Int downLeftCellIndex = wallGrid.GetObjectDownLeftCellIndex(celledCoordinates, objectSizeInCells);
+
         Debug.LogError(celledCoordinates);
 
 	}
@@ -90,9 +117,21 @@ public class WallGridMoverTwoAxis : MonoBehaviour
 		}
 	}
     // Start is called before the first frame update
+    void SetParentGridToObject()
+	{
+        transform.SetParent(transform.parent.FindChild("Grid").transform);
+	}
+
+    void SetParentWallToObject()
+	{
+        transform.SetParent(parentWall);
+	}
+
     void Start()
     {
+        parentWall = transform.parent;
         CalculateObjectSizeInCells();
+        //SetParentGridToObject();
         //DrawCells();
     }
 

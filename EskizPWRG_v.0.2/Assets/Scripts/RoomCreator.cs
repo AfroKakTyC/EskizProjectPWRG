@@ -321,8 +321,82 @@ public class RoomCreator : MonoBehaviour
 	void Start()
 	{
 		//CreateRoom(RoomType.Rectangle, "testRoom", roomCorners, 5);
+
+
+		//public string Name;
+		//public RoomType Type;
+		//public float Height;
+		//public float Area;
+		//public float Cost;
+		//public List<Vector2> RoomCorners = new List<Vector2>();
+		//public List<WallData> Walls = new List<WallData>();
+		//public BaseBoardData BaseBoard;
+		//public FloorData Floor;
+		//public CeilingData Ceiling;
+
+		RoomData diagonalRoom = new RoomData();
+		diagonalRoom.Name = "Diagonal room";
+		diagonalRoom.Type = RoomType.Trapezoidal;
+		diagonalRoom.Height = 4f;
+		diagonalRoom.Cost = 999f;
+		diagonalRoom.RoomCorners.Add(new Vector2(0, 0));
+		diagonalRoom.RoomCorners.Add(new Vector2(0, 5));
+		diagonalRoom.RoomCorners.Add(new Vector2(3, 5));
+		diagonalRoom.RoomCorners.Add(new Vector2(6, 0));
+
+		WallData wallData = new WallData(new Vector2(0, 0), new Vector2(0, 5));
+		WindowData window = new WindowData();
+		float windowHeight = 1.5f;
+		Vector3 middleWallCoord = new Vector3((0f + 0f) / 2, windowHeight, (0f + 5f) / 2);
+		window.Position = middleWallCoord;
+		Vector3 wallDirection = new Vector2(0, 5) - new Vector2(0, 0);
+		float windowRotationAngle = Vector3.SignedAngle(wallDirection, Vector3.up, Vector3.forward) + 90f;
+		window.Rotation = Quaternion.AngleAxis(windowRotationAngle, Vector3.up);
+		window.Type = WindowType.double_leaf_window;
+		wallData.Windows.Add(window);
+		diagonalRoom.Walls.Add(wallData);
+
+		wallData = new WallData(new Vector2(0, 5), new Vector2(3, 5));
+		window = new WindowData();
+		middleWallCoord = new Vector3((0f + 3f) / 2, windowHeight, (5f + 5f) / 2);
+		window.Position = middleWallCoord;
+		wallDirection = new Vector2(3, 5) - new Vector2(0, 5);
+		windowRotationAngle = Vector3.SignedAngle(wallDirection, Vector3.up, Vector3.forward) + 90f;
+		window.Rotation = Quaternion.AngleAxis(windowRotationAngle, Vector3.up);
+		window.Type = WindowType.double_leaf_window;
+		wallData.Windows.Add(window);
+		diagonalRoom.Walls.Add(wallData);
+
+		wallData = new WallData(new Vector2(3, 5), new Vector2(6, 0));
+		window = new WindowData();
+		middleWallCoord = new Vector3((3f + 6f) / 2, windowHeight, (5f + 0f) / 2);
+		window.Position = middleWallCoord;
+		wallDirection = new Vector2(6, 0) - new Vector2(3, 5);
+		windowRotationAngle = Vector3.SignedAngle(wallDirection, Vector3.up, Vector3.forward) + 90f;
+		window.Rotation = Quaternion.AngleAxis(windowRotationAngle, Vector3.up);
+		window.Type = WindowType.double_leaf_window;
+		wallData.Windows.Add(window);
+		diagonalRoom.Walls.Add(wallData);
+
+
+		wallData = new WallData(new Vector2(6, 0), new Vector2(0, 0));
+		window = new WindowData();
+		middleWallCoord = new Vector3((6f + 0f) / 2, windowHeight, (0f + 0f) / 2);
+		window.Position = middleWallCoord;
+		wallDirection = new Vector2(0, 0) - new Vector2(6, 0);
+		windowRotationAngle = Vector3.SignedAngle(wallDirection, Vector3.up, Vector3.forward) + 90f;
+		window.Rotation = Quaternion.AngleAxis(windowRotationAngle, Vector3.up);
+		window.Type = WindowType.double_leaf_window;
+		wallData.Windows.Add(window);
+		diagonalRoom.Walls.Add(wallData);
+
+		//diagonalRoom.Walls.Add(new WallData {})
+
+
 		Vector2[] diagonalRoomCorners = { new Vector2(0, 0), new Vector2(0, 5), new Vector2(3, 5), new Vector2(6, 0) };
-		CreateRoom(RoomType.Trapezoidal, "testRoom", diagonalRoomCorners, 5);
+
+		//CreateRoom(RoomType.Trapezoidal, "testRoom", diagonalRoomCorners, 5);
+		//CreateRoom(diagonalRoom);
 		
 	}
 }
